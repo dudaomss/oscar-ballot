@@ -2,16 +2,23 @@ import React, { useRef, useState, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import styled from 'styled-components';
 import categories from './data';
+import { Spin } from 'antd';
 
 const TemplateResult = ({ selections }) => {
     const [imageUrl, setImageUrl] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const templateRef = useRef(null);
 
     const generateImage = () => {
-        html2canvas(templateRef.current, { scale: 2 }).then((canvas) => {
-            const image = canvas.toDataURL('image/png');
-            setImageUrl(image);
-        });
+        setIsLoading(true);
+        html2canvas(templateRef.current, { scale: 2 })
+            .then((canvas) => {
+                const image = canvas.toDataURL('image/png');
+                setImageUrl(image);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     };
 
     useEffect(() => {
@@ -41,7 +48,11 @@ const TemplateResult = ({ selections }) => {
                 </Template>
             </div>
 
-            {imageUrl && (
+            {isLoading ? (
+                <SpinContainer>
+                    <Spin size="large" tip="Gerando imagem..." />
+                </SpinContainer>
+            ) : imageUrl ? (
                 <ResultContainer>
                     <h2>Preview da Imagem Gerada</h2>
                     <DownloadButton href={imageUrl} download="oscar-ballot.png">
@@ -49,7 +60,7 @@ const TemplateResult = ({ selections }) => {
                     </DownloadButton>
                     <PreviewImage src={imageUrl} alt="Oscar Ballot" />
                 </ResultContainer>
-            )}
+            ) : null}
         </Container>
     );
 };
@@ -154,4 +165,11 @@ const DownloadButton = styled.a`
     &:hover {
         background: #218838;
     }
+`;
+
+const SpinContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
 `;

@@ -14,6 +14,11 @@ const ContentComponent = () => {
         setSelections(prev => ({ ...prev, [category]: selected }));
     };
 
+    const resetVoting = () => {
+        setCurrentStep(0);
+        setSelections({});
+    };
+
     return (
         <ContainerContent>
             <TitleContainer>
@@ -63,7 +68,14 @@ const ContentComponent = () => {
                     </ButtonContainer>
                 </div>
             ) : (
-                <TemplateResult selections={selections} />
+                <div>
+                    <TemplateResult selections={selections} />
+                    <ButtonContainer>
+                        <Button type="primary" onClick={resetVoting}>
+                            Refazer
+                        </Button>
+                    </ButtonContainer>
+                </div>
             )}
         </ContainerContent>
     );
@@ -126,5 +138,4 @@ const ButtonContainer = styled.div`
 const Title = styled.div`
     display: flex;
     gap: 10px;
-
 `;

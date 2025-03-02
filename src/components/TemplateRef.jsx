@@ -49,7 +49,7 @@ const Template = styled.div`
 `;
 
 const Title = styled.h1`
-    font-size: 12px;
+    font-size: 16px;
     text-align: center;
     margin-bottom: 20px;
 `;

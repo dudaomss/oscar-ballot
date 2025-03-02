@@ -14,9 +14,9 @@ const LayoutComponent = () => {
       <StyledContent>
         <ContentComponent />
       </StyledContent>
-      <Footer>
+      {/* <Footer>
         ©{new Date().getFullYear()} Created by @minjimineira
-      </Footer>
+      </Footer> */}
     </LayoutStyle>
   );
 };
